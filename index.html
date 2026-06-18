@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나무위키형 해외 플랫폼 벤치마킹 보고서 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.6; }
+a { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+header { background: linear-gradient(135deg, #161b22 0%, #1f2937 100%); border-bottom: 1px solid #30363d; padding: 40px 0; }
+header h1 { font-size: 28px; font-weight: 700; color: #f0f6fc; margin-bottom: 8px; }
+header .subtitle { color: #8b949e; font-size: 14px; }
+.badge { display: inline-block; background: #1f6feb; color: #fff; font-size: 12px; padding: 2px 10px; border-radius: 20px; margin-left: 10px; vertical-align: middle; }
+
+/* Dashboard Cards */
+.dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; padding: 32px 0; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; text-align: center; }
+.card .num { font-size: 36px; font-weight: 700; color: #58a6ff; }
+.card .label { font-size: 13px; color: #8b949e; margin-top: 4px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid #30363d; margin-bottom: 28px; flex-wrap: wrap; }
+.tab { padding: 10px 18px; cursor: pointer; color: #8b949e; font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.tab:hover { color: #c9d1d9; }
+.tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Section */
+.section { padding: 32px 0; }
+.section h2 { font-size: 20px; color: #f0f6fc; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
+.section h3 { font-size: 16px; color: #e6edf3; margin: 24px 0 12px; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin-bottom: 24px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 700px; }
+th { background: #161b22; color: #8b949e; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 2px solid #30363d; white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid #21262d; vertical-align: top; }
+tr:hover td { background: #161b22; }
+.rank-1 { color: #3fb950; font-weight: 700; }
+.rank-2 { color: #58a6ff; }
+.rank-3 { color: #d29922; }
+
+/* Site Cards */
+.site-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+.site-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 22px; }
+.site-card h3 { font-size: 15px; color: #f0f6fc; margin: 0 0 6px; }
+.site-card .country { font-size: 12px; color: #8b949e; margin-bottom: 14px; }
+.site-card .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.metric { background: #0d1117; border-radius: 6px; padding: 8px 10px; }
+.metric .m-label { font-size: 11px; color: #8b949e; }
+.metric .m-val { font-size: 13px; color: #c9d1d9; font-weight: 600; margin-top: 2px; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+.tag-green { background: #0d4429; color: #3fb950; border: 1px solid #1a7f37; }
+.tag-blue { background: #0c2a4a; color: #58a6ff; border: 1px solid #1158a6; }
+.tag-red { background: #3d1a1a; color: #f85149; border: 1px solid #6e2a2a; }
+.tag-yellow { background: #342d00; color: #d29922; border: 1px solid #5e4d00; }
+
+/* Benchmark Points */
+.bp-list { list-style: none; }
+.bp-list li { padding: 10px 0; border-bottom: 1px solid #21262d; display: flex; gap: 12px; }
+.bp-list li:last-child { border-bottom: none; }
+.bp-num { background: #1f6feb; color: #fff; font-size: 12px; font-weight: 700; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.bp-text { flex: 1; }
+.bp-text strong { display: block; color: #e6edf3; margin-bottom: 3px; }
+.bp-text span { font-size: 13px; color: #8b949e; }
+
+/* Analysis Blocks */
+.analysis-block { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 22px; margin-bottom: 20px; }
+.analysis-block h3 { color: #58a6ff; font-size: 15px; margin-bottom: 14px; }
+.comparison-row { display: grid; grid-template-columns: 200px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 13px; }
+.comparison-row:last-child { border-bottom: none; }
+.c-label { color: #8b949e; font-weight: 600; }
+.c-val { color: #c9d1d9; }
+
+/* Source list */
+.source-list { list-style: none; font-size: 13px; }
+.source-list li { padding: 6px 0; border-bottom: 1px solid #21262d; }
+.source-list li:last-child { border-bottom: none; }
+
+/* Highlight box */
+.highlight { background: #0c2a4a; border: 1px solid #1158a6; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+.highlight strong { color: #58a6ff; }
+
+footer { background: #161b22; border-top: 1px solid #30363d; padding: 24px 0; text-align: center; color: #484f58; font-size: 13px; margin-top: 40px; }
+
+@media (max-width: 640px) {
+  header h1 { font-size: 20px; }
+  .site-grid { grid-template-columns: 1fr; }
+  .dashboard { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>나무위키형 해외 플랫폼 벤치마킹 보고서 <span class="badge">2026</span></h1>
+    <p class="subtitle">조사일: 2026-06-19 &nbsp;|&nbsp; 대상: 미국 제외 해외 12개 플랫폼 &nbsp;|&nbsp; 서브에이전트 병렬 심층조사</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <div class="card"><div class="num">12</div><div class="label">조사 플랫폼</div></div>
+    <div class="card"><div class="num">7</div><div class="label">조사 국가/지역</div></div>
+    <div class="card"><div class="num">347M</div><div class="label">나무위키 월 방문자</div></div>
+    <div class="card"><div class="num">5</div><div class="label">심화분석 토픽</div></div>
+    <div class="card"><div class="num">40.3%</div><div class="label">나무위키 이탈률</div></div>
+    <div class="card"><div class="num">7분46초</div><div class="label">나무위키 체류시간</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview')">전체 비교</div>
+    <div class="tab" onclick="showTab('sites')">사이트별 상세</div>
+    <div class="tab" onclick="showTab('revenue')">수익모델 분석</div>
+    <div class="tab" onclick="showTab('community')">커뮤니티 분석</div>
+    <div class="tab" onclick="showTab('ux')">UX/UI 분석</div>
+    <div class="tab" onclick="showTab('trend')">최신 트렌드</div>
+    <div class="tab" onclick="showTab('benchmark')">벤치마킹 TOP 15</div>
+    <div class="tab" onclick="showTab('sources')">출처</div>
+  </div>
+
+  <!-- 전체 비교 -->
+  <div id="overview" class="tab-content active section">
+    <h2>전체 플랫폼 비교표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>사이트</th>
+            <th>국가</th>
+            <th>월 트래픽</th>
+            <th>이탈률</th>
+            <th>체류시간</th>
+            <th>편집방식</th>
+            <th>수익모델</th>
+            <th>핵심 특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>나무위키</strong> (기준)</td>
+            <td>🇰🇷 한국</td>
+            <td class="rank-1">347.6M</td>
+            <td class="rank-1">40.3%</td>
+            <td class="rank-1">7분46초</td>
+            <td>회원/비회원</td>
+            <td>광고</td>
+            <td>서브컬처 종합 백과, 한국어 독점</td>
+          </tr>
+          <tr>
+            <td><strong>百度百科</strong> Baidu Baike</td>
+            <td>🇨🇳 중국</td>
+            <td class="rank-1">295M+</td>
+            <td>-</td>
+            <td>-</td>
+            <td>실명+승인제</td>
+            <td>광고+검색연동</td>
+            <td>3000만 항목, 게이미피케이션, 숏폼요약</td>
+          </tr>
+          <tr>
+            <td><strong>ピクシブ百科事典</strong></td>
+            <td>🇯🇵 일본</td>
+            <td class="rank-2">44M</td>
+            <td>64.6%</td>
+            <td>5분35초</td>
+            <td>계정 필요</td>
+            <td>Pixiv 생태계</td>
+            <td>태그=항목 자동생성, 이미지 중심</td>
+          </tr>
+          <tr>
+            <td><strong>ニコニコ大百科</strong></td>
+            <td>🇯🇵 일본</td>
+            <td class="rank-2">79.2M</td>
+            <td>59.6%</td>
+            <td>2분52초</td>
+            <td>프리미엄만 편집</td>
+            <td>구독+광고</td>
+            <td>동영상↔위키 연동, 편집권=수익화</td>
+          </tr>
+          <tr>
+            <td><strong>wikiwiki.jp</strong></td>
+            <td>🇯🇵 일본</td>
+            <td>34.1M</td>
+            <td class="rank-2">38.3%</td>
+            <td>6분04초</td>
+            <td>그룹별 자유</td>
+            <td>광고</td>
+            <td>낮은 이탈률, 게임공략 호스팅</td>
+          </tr>
+          <tr>
+            <td><strong>アットウィキ</strong> atwiki</td>
+            <td>🇯🇵 일본</td>
+            <td>32M</td>
+            <td>47.0%</td>
+            <td>6분44초</td>
+            <td>그룹별 자유</td>
+            <td>광고</td>
+            <td>분산형 위키 호스팅, 게임공략</td>
+          </tr>
+          <tr>
+            <td><strong>巴哈姆特</strong> Bahamut</td>
+            <td>🇹🇼 대만</td>
+            <td>대만 5위</td>
+            <td>-</td>
+            <td>-</td>
+            <td>회원제</td>
+            <td>광고+스트리밍+쇼핑</td>
+            <td>포럼+위키+스트리밍 수직통합, 26년</td>
+          </tr>
+          <tr>
+            <td><strong>萌娘百科</strong> Moegirl</td>
+            <td>🇨🇳 중국</td>
+            <td>3.4M</td>
+            <td>59.7%</td>
+            <td>2분19초</td>
+            <td>반승인제</td>
+            <td>광고+멤버십</td>
+            <td>ACG 특화, 나무위키식 유머 문체</td>
+          </tr>
+          <tr>
+            <td><strong>Neolurk</strong></td>
+            <td>🇷🇺 러시아</td>
+            <td>러시아 1위(장르)</td>
+            <td>-</td>
+            <td>-</td>
+            <td>익명 편집</td>
+            <td>광고</td>
+            <td>IP 미노출, 밈·하위문화, 풍자 문체</td>
+          </tr>
+          <tr>
+            <td><strong>더위키</strong> thewiki.kr</td>
+            <td>🇰🇷 한국</td>
+            <td>나무위키 다음</td>
+            <td>-</td>
+            <td>-</td>
+            <td>비회원 가능</td>
+            <td>광고</td>
+            <td>나무위키 포크, 과거덤프 열람</td>
+          </tr>
+          <tr>
+            <td><strong>MyAnimeList</strong></td>
+            <td>🌐 글로벌</td>
+            <td>수천만</td>
+            <td>-</td>
+            <td>-</td>
+            <td>DB+편집 혼합</td>
+            <td>광고+프리미엄</td>
+            <td>애니/만화 DB, 평점+리뷰+커뮤니티</td>
+          </tr>
+          <tr>
+            <td><strong>NGA</strong> bbs.nga.cn</td>
+            <td>🇨🇳 중국</td>
+            <td>중국 게임 최대</td>
+            <td>-</td>
+            <td>-</td>
+            <td>포럼 게시</td>
+            <td>광고+프리미엄</td>
+            <td>포럼만으로 공략DB 역할, 위키 없음</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight">
+      <strong>핵심 발견:</strong> 나무위키는 월 347.6M 방문으로 조사 대상 중 압도적 1위(Baidu 제외). 이탈률 40.3%, 체류시간 7분46초는 동종 플랫폼 대비 최우수. 단일 언어권 서브컬처 독점 전략의 유효성을 입증.
+    </div>
+  </div>
+
+  <!-- 사이트별 상세 -->
+  <div id="sites" class="tab-content section">
+    <h2>사이트별 상세 분석</h2>
+    <div class="site-grid">
+
+      <div class="site-card">
+        <h3>🇨🇳 百度百科 Baidu Baike</h3>
+        <div class="country">baike.baidu.com &nbsp;|&nbsp; 창립 2006 &nbsp;|&nbsp; Baidu Inc.</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">항목 수</div><div class="m-val">3,000만+</div></div>
+          <div class="metric"><div class="m-label">편집자</div><div class="m-val">803만명</div></div>
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">295M+</div></div>
+          <div class="metric"><div class="m-label">언어</div><div class="m-val">중국어</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">Baidu 검색 생태계와 연동된 중국 최대 백과사전. 실명 회원제 + 15단계 기여자 등급 + 실물 보상의 게이미피케이션이 강점. 2026년 2월 국제판 BaiduWiki 출시. 2024년부터 숏폼 영상 요약 '妙懂百科' 기능 제공.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">게이미피케이션</span>
+          <span class="tag tag-green">전문가 검증 배지</span>
+          <span class="tag tag-green">숏폼 요약</span>
+          <span class="tag tag-red">검열 이슈</span>
+          <span class="tag tag-red">서브컬처 약함</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 포인트·레벨 보상제, 숏폼 요약 영상, 전문가 검증 시스템</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇯🇵 ピクシブ百科事典 Pixiv Encyclopedia</h3>
+        <div class="country">dic.pixiv.net &nbsp;|&nbsp; 창립 2009 &nbsp;|&nbsp; Pixiv Co.</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">44M</div></div>
+          <div class="metric"><div class="m-label">항목 수</div><div class="m-val">35만+</div></div>
+          <div class="metric"><div class="m-label">이탈률</div><div class="m-val">64.6%</div></div>
+          <div class="metric"><div class="m-label">체류시간</div><div class="m-val">5분35초</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">Pixiv(일본 최대 일러스트 플랫폼) 계정과 연동된 동인·팬아트 특화 백과. 핵심 구조: pixiv 태그가 자동으로 위키 항목이 됨 → 창작자 35만명 DB가 자연스럽게 위키 콘텐츠 생성. 이미지 임베드, 영어판 존재.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">태그→항목 플라이휠</span>
+          <span class="tag tag-green">이미지 중심</span>
+          <span class="tag tag-green">창작자 연동</span>
+          <span class="tag tag-red">문서 깊이 얕음</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 대형 창작 플랫폼과 위키 통합, 태그=항목 자동 생성 구조</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇯🇵 ニコニコ大百科 Nicopedia</h3>
+        <div class="country">dic.nicovideo.jp &nbsp;|&nbsp; 창립 2008 &nbsp;|&nbsp; KADOKAWA</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">79.2M</div></div>
+          <div class="metric"><div class="m-label">이탈률</div><div class="m-val">59.6%</div></div>
+          <div class="metric"><div class="m-label">체류시간</div><div class="m-val">2분52초</div></div>
+          <div class="metric"><div class="m-label">편집요금</div><div class="m-val">월 550엔</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">니코니코 동영상 플랫폼과 통합된 위키. 핵심: <strong style="color:#e6edf3">프리미엄 회원(월 550엔)만 편집 가능</strong> → 편집권을 수익화와 직접 연결. 동영상 태그↔사전 항목 연결. 2024년 랜섬웨어 공격으로 2개월 서비스 중단. 2026년 해외 접속 차단.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">동영상+위키 하이브리드</span>
+          <span class="tag tag-green">편집권=수익화</span>
+          <span class="tag tag-red">2024 사이버공격</span>
+          <span class="tag tag-red">해외 차단</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 편집 권한을 프리미엄 구독과 연동하는 수익 구조</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇹🇼 巴哈姆特 Bahamut</h3>
+        <div class="country">gamer.com.tw &nbsp;|&nbsp; 창립 1996 &nbsp;|&nbsp; 대만 최대 ACG</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">회원 수</div><div class="m-val">671만</div></div>
+          <div class="metric"><div class="m-label">누적 PV</div><div class="m-val">1,326억</div></div>
+          <div class="metric"><div class="m-label">포스트</div><div class="m-val">1,370만개</div></div>
+          <div class="metric"><div class="m-label">대만 순위</div><div class="m-val">전체 5위</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">26년 역사의 대만 ACG(애니·코믹·게임) 종합 플랫폼. 나무위키와 가장 유사한 구조로 꼽힘. GNN 게임뉴스 + 하라구역 포럼 + ACG Database(wiki) + Animation Crazy(스트리밍) + 창작홀 + 쇼핑몰 수직 통합. 안정적 멀티 수익 구조.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">수직통합 생태계</span>
+          <span class="tag tag-green">26년 신뢰도</span>
+          <span class="tag tag-green">멀티 수익</span>
+          <span class="tag tag-red">번자체 한정</span>
+          <span class="tag tag-red">UI 구식</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 단순 위키 초월 — 뉴스+포럼+위키+스트리밍 통합 플랫폼 설계</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇨🇳 萌娘百科 Moegirlpedia</h3>
+        <div class="country">zh.moegirl.org.cn &nbsp;|&nbsp; 창립 2010 &nbsp;|&nbsp; 비영리</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">3.4M</div></div>
+          <div class="metric"><div class="m-label">이탈률</div><div class="m-val">59.7%</div></div>
+          <div class="metric"><div class="m-label">항목 수</div><div class="m-val">7만+</div></div>
+          <div class="metric"><div class="m-label">등록유저</div><div class="m-val">107만</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">나무위키와 문화적으로 가장 유사한 중국 ACG 백과. 유머 문체, 취소선·코미디 주석, 모에 톤 동일. 3개 언어판(중·영·일). 2023.09 광고 없는 멤버십 출시. 화권(중국40%+대만29%+홍콩16%) 커버. 2024년부터 편집 후 검토 비공개 시스템 도입.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">나무위키식 유머</span>
+          <span class="tag tag-green">멤버십+광고 혼합</span>
+          <span class="tag tag-green">3개 언어판</span>
+          <span class="tag tag-red">규모 작음</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 유머 문체 정책, 광고없는 멤버십 티어, 다국어 분기 전략</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇯🇵 wikiwiki.jp</h3>
+        <div class="country">wikiwiki.jp &nbsp;|&nbsp; NTT 계열</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">34.1M</div></div>
+          <div class="metric"><div class="m-label">글로벌 순위</div><div class="m-val">#1,389</div></div>
+          <div class="metric"><div class="m-label">이탈률</div><div class="m-val">38.3% ★</div></div>
+          <div class="metric"><div class="m-label">체류시간</div><div class="m-val">6분04초</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">일본 게임 공략 위키 호스팅 플랫폼. 이탈률 38.3%는 나무위키(40.3%) 다음으로 낮음 — 연관 항목 링크와 게임 공략 특성상 페이지 간 이동이 많음. atwiki.jp와 일본 내 1:1 경쟁.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">최저 이탈률</span>
+          <span class="tag tag-green">게임공략 특화</span>
+          <span class="tag tag-blue">분산형 호스팅</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 낮은 이탈률 달성하는 내부 링크 UX 구조</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇯🇵 アットウィキ atwiki.jp</h3>
+        <div class="country">atwiki.jp &nbsp;|&nbsp; GMO Internet Group</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">월 방문</div><div class="m-val">32M</div></div>
+          <div class="metric"><div class="m-label">글로벌 순위</div><div class="m-val">#1,688</div></div>
+          <div class="metric"><div class="m-label">이탈률</div><div class="m-val">47.0%</div></div>
+          <div class="metric"><div class="m-label">체류시간</div><div class="m-val">6분44초</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">개인·그룹이 게임별 위키를 자유 개설하는 호스팅 플랫폼. アニヲタWiki(仮) — 나무위키와 가장 유사한 일본 오타쿠 백과가 이 플랫폼에서 운영. 2024.03 관리자 악성 스크립트 삽입 사건으로 アニヲタWiki 영구 정지 → Miraheze로 이전.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">분산형 위키</span>
+          <span class="tag tag-green">커스터마이징</span>
+          <span class="tag tag-red">2024 보안 사건</span>
+          <span class="tag tag-red">관리자 리스크</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 개인 위키 호스팅 모델 — 분산형 vs 중앙집중형 선택</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇷🇺 Neolurk / Lurkmore</h3>
+        <div class="country">neolurk.org &nbsp;|&nbsp; Lurkmore(2007) 계승</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">문서 수</div><div class="m-val">46,000+</div></div>
+          <div class="metric"><div class="m-label">유기검색</div><div class="m-val">63.9%</div></div>
+          <div class="metric"><div class="m-label">편집방식</div><div class="m-val">완전 익명</div></div>
+          <div class="metric"><div class="m-label">주 연령층</div><div class="m-val">25-34세</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">러시아 인터넷 밈·슬랭·하위문화 특화 위키. 핵심 차별점: <strong style="color:#e6edf3">IP 미노출 완전 익명 편집</strong> + 비공식·풍자 문체 전면 허용. 2ch.hk(드바치) 커뮤니티와 연동. 러시아 정부 검열 압박 속에서도 독립 호스팅 유지.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">IP 미노출 익명</span>
+          <span class="tag tag-green">풍자 문체</span>
+          <span class="tag tag-red">러시아어 한정</span>
+          <span class="tag tag-red">검열 리스크</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 익명성 보장 편집 정책, 비공식 문체 허용으로 커뮤니티 록인</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇰🇷 더위키 thewiki.kr</h3>
+        <div class="country">thewiki.kr &nbsp;|&nbsp; 창립 2016 &nbsp;|&nbsp; 나무위키 포크</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">기반</div><div class="m-val">나무위키 포크</div></div>
+          <div class="metric"><div class="m-label">문법</div><div class="m-val">NamuMark</div></div>
+          <div class="metric"><div class="m-label">편집</div><div class="m-val">비회원 가능</div></div>
+          <div class="metric"><div class="m-label">특기</div><div class="m-val">과거 덤프 열람</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">나무위키 최대 포크 사이트. 2020년부터 비로그인 편집 허용(나무위키보다 개방적). 나무위키 과거 덤프 버전 열람 기능 제공 — 콘텐츠 역사 투명성. 포크 생태계가 어떻게 분화되는지 보여주는 사례.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">과거 덤프 열람</span>
+          <span class="tag tag-green">비회원 편집</span>
+          <span class="tag tag-red">과도한 광고</span>
+          <span class="tag tag-blue">포크 생태계 사례</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 편집 개방성 전략, 콘텐츠 이력 투명성 기능</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🌐 MyAnimeList (MAL)</h3>
+        <div class="country">myanimelist.net &nbsp;|&nbsp; 글로벌 최대 애니DB</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">규모</div><div class="m-val">글로벌 최대</div></div>
+          <div class="metric"><div class="m-label">기능</div><div class="m-val">DB+리뷰+위키</div></div>
+          <div class="metric"><div class="m-label">수익</div><div class="m-val">광고+프리미엄</div></div>
+          <div class="metric"><div class="m-label">언어</div><div class="m-val">영어(글로벌)</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">애니메이션·만화 특화 글로벌 데이터베이스. 정형 DB + 유저 리뷰/평점 + 위키 편집 + 포럼 커뮤니티 혼합 구조. 광고없는 프리미엄 멤버십 운영. 나무위키형 자유 편집 vs 정형 DB 방식의 비교 레퍼런스.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">평점+리뷰 시스템</span>
+          <span class="tag tag-green">글로벌 커뮤니티</span>
+          <span class="tag tag-blue">DB+위키 혼합</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 평점·리뷰 레이어 추가, 정형 DB와 자유 위키 공존 방식</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🌐 AniList</h3>
+        <div class="country">anilist.co &nbsp;|&nbsp; MAL 현대적 대안</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">특징</div><div class="m-val">오픈 API</div></div>
+          <div class="metric"><div class="m-label">UI</div><div class="m-val">현대적 디자인</div></div>
+          <div class="metric"><div class="m-label">수익</div><div class="m-val">기부+광고</div></div>
+          <div class="metric"><div class="m-label">개발자 친화</div><div class="m-val">GraphQL API</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">MAL보다 현대적인 UI와 오픈 GraphQL API 제공. 개발자 생태계 구축이 강점. 서드파티 앱이 AniList API를 활용하는 플라이휠 형성.</p>
+        <div class="tag-list">
+          <span class="tag tag-green">GraphQL API 공개</span>
+          <span class="tag tag-green">현대적 UI</span>
+          <span class="tag tag-blue">개발자 생태계</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 오픈 API 생태계로 서드파티 앱 플라이휠 형성</p>
+      </div>
+
+      <div class="site-card">
+        <h3>🇨🇳 NGA (bbs.nga.cn)</h3>
+        <div class="country">bbs.nga.cn &nbsp;|&nbsp; 중국 최대 게임 포럼</div>
+        <div class="metrics">
+          <div class="metric"><div class="m-label">포지션</div><div class="m-val">중국 게임 1위</div></div>
+          <div class="metric"><div class="m-label">구조</div><div class="m-val">순수 포럼</div></div>
+          <div class="metric"><div class="m-label">편집</div><div class="m-val">회원 게시</div></div>
+          <div class="metric"><div class="m-label">특징</div><div class="m-val">위키 없음</div></div>
+        </div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px;">위키 구조 없이 포럼 게시물만으로 중국 최대 게임 공략·정보 DB 역할 수행. 포럼 방식과 위키 방식의 비교 레퍼런스로 중요.</p>
+        <div class="tag-list">
+          <span class="tag tag-blue">포럼=DB 구조</span>
+          <span class="tag tag-green">게임 특화</span>
+          <span class="tag tag-red">위키화 어려움</span>
+        </div>
+        <p style="font-size:12px;color:#58a6ff;margin-top:12px;">벤치마킹: 포럼 vs 위키 — 어느 구조가 공략 DB에 최적인가</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 수익모델 -->
+  <div id="revenue" class="tab-content section">
+    <h2>수익모델 심화 분석</h2>
+
+    <div class="analysis-block">
+      <h3>수익모델 유형 분류</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>유형</th><th>해당 플랫폼</th><th>특징</th><th>적합 규모</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>광고 단독</td><td>나무위키, Neolurk, atwiki, 더위키</td><td>단순·리스크 낮음. 대형화 필요</td><td>대형(월 30M+)</td></tr>
+            <tr><td>광고+멤버십</td><td>萌娘百科, MAL, AniList</td><td>안정적 이중 수익. 광고 거부감 완화</td><td>중형(월 3~50M)</td></tr>
+            <tr><td>편집권=구독</td><td>Nicopedia(月550엔)</td><td>혁신적. 기여자=유료 사용자</td><td>동영상 플랫폼 연동 시</td></tr>
+            <tr><td>수직통합</td><td>巴哈姆特(스트리밍+쇼핑)</td><td>최고 수익. 구축 비용 큼</td><td>대형+장기 운영</td></tr>
+            <tr><td>검색 생태계</td><td>Baidu Baike</td><td>압도적 트래픽. 검색엔진 독점 필요</td><td>검색엔진 보유 시</td></tr>
+            <tr><td>오픈 API</td><td>AniList</td><td>수익 낮지만 생태계 형성</td><td>스타트업~중형</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="analysis-block">
+      <h3>나무위키형 플랫폼 최적 수익 모델 추천</h3>
+      <ul class="bp-list">
+        <li>
+          <div class="bp-num">1</div>
+          <div class="bp-text">
+            <strong>광고 + 광고없는 멤버십 (萌娘百科 모델)</strong>
+            <span>기본은 광고 수익 유지, 월정액 멤버십(광고 제거+추가기능)으로 이중 수익. 가장 검증된 위키 수익 구조. 요금 예시: 월 1,900~4,900원 티어.</span>
+          </div>
+        </li>
+        <li>
+          <div class="bp-num">2</div>
+          <div class="bp-text">
+            <strong>프리미엄 편집 기능 (Nicopedia 변형)</strong>
+            <span>편집 자체는 무료로 유지(나무위키 철학 유지), 고급 편집 도구(AI 초안 생성, 이미지 업로드 무제한 등)만 프리미엄화.</span>
+          </div>
+        </li>
+        <li>
+          <div class="bp-num">3</div>
+          <div class="bp-text">
+            <strong>기여자 게이미피케이션 + 보상 (Baidu Baike 모델)</strong>
+            <span>포인트·레벨 시스템으로 에디터 동기 부여. 상위 기여자에게 광고 수익 일부 환원 — 편집 품질↑ + 커뮤니티 충성도↑.</span>
+          </div>
+        </li>
+        <li>
+          <div class="bp-num">4</div>
+          <div class="bp-text">
+            <strong>장기: 스트리밍·커머스 연동 (巴哈姆特 모델)</strong>
+            <span>위키 항목에서 관련 굿즈·도서·게임 구매 연결. 제휴 커머스로 추가 수익. 규모 성장 후 단계적 도입.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 커뮤니티 -->
+  <div id="community" class="tab-content section">
+    <h2>커뮤니티 기능 심화 분석</h2>
+
+    <div class="analysis-block">
+      <h3>게이미피케이션 시스템 비교</h3>
+      <div class="comparison-row"><div class="c-label">Baidu Baike</div><div class="c-val">15단계 기여자 등급, 경험치 포인트, 실물 상품 보상, 전문가 배지 — 가장 정교한 시스템</div></div>
+      <div class="comparison-row"><div class="c-label">Nicopedia</div><div class="c-val">항목별 추천(좋아요), 인기 랭킹, 프리미엄 편집자 지위</div></div>
+      <div class="comparison-row"><div class="c-label">萌娘百科</div><div class="c-val">편집 기여 이력, 멤버십 배지</div></div>
+      <div class="comparison-row"><div class="c-label">나무위키</div><div class="c-val">편집 기여 이력 표시 (게이미피케이션 없음)</div></div>
+      <div class="comparison-row"><div class="c-label">더위키</div><div class="c-val">없음</div></div>
+    </div>
+
+    <div class="analysis-block">
+      <h3>반달리즘 대응 방식 비교</h3>
+      <div class="comparison-row"><div class="c-label">나무위키</div><div class="c-val">ACL(접근제어목록), IP 차단, 문서 보호, 운영진 검토</div></div>
+      <div class="comparison-row"><div class="c-label">萌娘百科</div><div class="c-val">2024년부터 편집 후 검토 비공개 시스템 (공개 전 검토)</div></div>
+      <div class="comparison-row"><div class="c-label">Baidu Baike</div><div class="c-val">실명제 + AI 자동 리뷰 + 관리자 승인</div></div>
+      <div class="comparison-row"><div class="c-label">Nicopedia</div><div class="c-val">프리미엄 구독자만 편집 (결제 장벽이 반달 차단)</div></div>
+      <div class="comparison-row"><div class="c-label">Neolurk</div><div class="c-val">커뮤니티 자율 (IP 미노출이지만 커뮤니티 내 자정)</div></div>
+    </div>
+
+    <div class="analysis-block">
+      <h3>커뮤니티 활성화 우수 사례 TOP 5</h3>
+      <ul class="bp-list">
+        <li><div class="bp-num">1</div><div class="bp-text"><strong>Baidu Baike — 기여 보상 게이미피케이션</strong><span>실물 보상까지 연결되는 15단계 레벨 시스템. 에디터 이탈률 감소 효과 입증.</span></div></li>
+        <li><div class="bp-num">2</div><div class="bp-text"><strong>巴哈姆特 — 포럼+위키 통합</strong><span>포럼 토론이 위키 항목으로 자연스럽게 정리되는 구조. 신규 콘텐츠가 커뮤니티에서 자동 발생.</span></div></li>
+        <li><div class="bp-num">3</div><div class="bp-text"><strong>Pixiv Encyclopedia — 창작자 플라이휠</strong><span>창작자 35만명이 태그를 붙이면 자동으로 위키 항목 생성. 수동 편집 없이 콘텐츠 증가.</span></div></li>
+        <li><div class="bp-num">4</div><div class="bp-text"><strong>Nicopedia — 동영상 댓글 연동</strong><span>동영상 위에 흐르는 실시간 댓글이 위키 항목 논의와 연결. 참여 장벽 최소화.</span></div></li>
+        <li><div class="bp-num">5</div><div class="bp-text"><strong>Neolurk — 익명성 보장</strong><span>IP 미노출 익명 편집으로 참여 심리적 부담 제거. 특정 커뮤니티 록인 형성.</span></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- UX -->
+  <div id="ux" class="tab-content section">
+    <h2>UX/UI 심화 분석</h2>
+
+    <div class="analysis-block">
+      <h3>이탈률 vs 체류시간 분석</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>플랫폼</th><th>이탈률</th><th>체류시간</th><th>낮은 이탈률 요인</th></tr></thead>
+          <tbody>
+            <tr><td>wikiwiki.jp</td><td class="rank-1">38.3%</td><td>6분04초</td><td>게임 공략 특성상 다음 항목 클릭 필수</td></tr>
+            <tr><td>나무위키</td><td class="rank-2">40.3%</td><td class="rank-1">7분46초</td><td>강력한 내부 링크망, 호기심 유발 문체</td></tr>
+            <tr><td>atwiki.jp</td><td>47.0%</td><td>6분44초</td><td>게임 공략, 연관 위키 링크</td></tr>
+            <tr><td>Nicopedia</td><td>59.6%</td><td>2분52초</td><td>동영상 시청 후 이탈 패턴</td></tr>
+            <tr><td>萌娘百科</td><td>59.7%</td><td>2분19초</td><td>단일 항목 확인 후 이탈</td></tr>
+            <tr><td>Pixiv Encyclopedia</td><td>64.6%</td><td>5분35초</td><td>태그 검색 → 항목 확인 후 pixiv로 복귀</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="analysis-block">
+      <h3>UI/UX 설계 인사이트 TOP 10</h3>
+      <ul class="bp-list">
+        <li><div class="bp-num">1</div><div class="bp-text"><strong>연관 항목 링크 밀도 (나무위키 핵심)</strong><span>나무위키 이탈률 40.3%의 비결 — 텍스트 내 링크가 호기심을 다음 페이지로 유도. 링크 밀도를 높게 설계.</span></div></li>
+        <li><div class="bp-num">2</div><div class="bp-text"><strong>인포박스 표준화 (Baidu Baike)</strong><span>항목 우측 기본정보 박스를 템플릿화. 핵심 정보를 즉시 스캔 가능하게.</span></div></li>
+        <li><div class="bp-num">3</div><div class="bp-text"><strong>태그 기반 발견성 (Pixiv Encyclopedia)</strong><span>태그로 연관 항목 클러스터링 — 팬덤 내 탐색 자연스럽게 연장.</span></div></li>
+        <li><div class="bp-num">4</div><div class="bp-text"><strong>다크모드 — 기회 영역</strong><span>조사 대상 대부분 미지원. 다크모드 기본 제공 시 차별화 포인트.</span></div></li>
+        <li><div class="bp-num">5</div><div class="bp-text"><strong>모바일 퍼스트 설계</strong><span>巴哈姆特 별도 앱, 萌娘百科 모바일 앱 존재. 모바일 트래픽이 전체 60~70% 차지.</span></div></li>
+        <li><div class="bp-num">6</div><div class="bp-text"><strong>숏폼 요약 레이어 (Baidu)</strong><span>긴 항목 상단에 30초 요약 영상 또는 AI 요약문 배치 — 빠른 소비자와 깊은 독자 모두 대응.</span></div></li>
+        <li><div class="bp-num">7</div><div class="bp-text"><strong>편집 이력 투명성 (더위키)</strong><span>과거 버전 열람, 편집 이력 비교 — 콘텐츠 신뢰도 향상.</span></div></li>
+        <li><div class="bp-num">8</div><div class="bp-text"><strong>이미지 갤러리 (Pixiv)</strong><span>항목 관련 팬아트·이미지를 갤러리 형태로 — 비주얼 소비 패턴 대응.</span></div></li>
+        <li><div class="bp-num">9</div><div class="bp-text"><strong>검색 자동완성 + 오타 교정</strong><span>나무위키 수준의 자동완성이 서비스 진입 장벽 낮춤. 한국어 초성 검색 지원.</span></div></li>
+        <li><div class="bp-num">10</div><div class="bp-text"><strong>광고 배치 UX 침해 최소화</strong><span>더위키의 과도한 광고는 이탈의 원인. 광고는 항목 하단·사이드바로 한정.</span></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 트렌드 -->
+  <div id="trend" class="tab-content section">
+    <h2>2024~2026 최신 트렌드</h2>
+
+    <div class="analysis-block">
+      <h3>AI 통합 동향</h3>
+      <div class="comparison-row"><div class="c-label">Baidu Baike</div><div class="c-val">妙懂百科 — 항목별 30초 숏폼 AI 요약 영상(2024~). 검색 AI Ernie Bot과 연동.</div></div>
+      <div class="comparison-row"><div class="c-label">나무위키</div><div class="c-val">AI 기능 미도입 (기회 영역)</div></div>
+      <div class="comparison-row"><div class="c-label">AniList</div><div class="c-val">GraphQL API → GPT/Claude 연동 서드파티 봇 다수 등장</div></div>
+      <div class="comparison-row"><div class="c-label">전망</div><div class="c-val">AI 초안 생성 → 에디터 검토 확정 워크플로우가 2026~2027 표준이 될 것</div></div>
+    </div>
+
+    <div class="analysis-block">
+      <h3>주요 이슈 및 교훈</h3>
+      <ul class="bp-list">
+        <li><div class="bp-num">!</div><div class="bp-text"><strong>Nicopedia 랜섬웨어 (2024.06)</strong><span>KADOKAWA 그룹 전체 2개월 서비스 중단. 중앙화 단일 장애점 리스크. 분산 백업 필수.</span></div></li>
+        <li><div class="bp-num">!</div><div class="bp-text"><strong>アニヲタWiki 악성 스크립트 (2024.03)</strong><span>단독 관리자 체제의 위험성. 다중 관리자 + 코드 감사 체계 필요.</span></div></li>
+        <li><div class="bp-num">!</div><div class="bp-text"><strong>나무위키 개인정보법 위반 고발 (2025)</strong><span>익명 편집자 IP 로그 보관 논란. 개인정보 처리 방침 명확화 필요.</span></div></li>
+        <li><div class="bp-num">!</div><div class="bp-text"><strong>탈중앙화 트렌드</strong><span>アニヲタWiki → Miraheze 이전. Miraheze 기반 독립 위키 증가 추세.</span></div></li>
+        <li><div class="bp-num">★</div><div class="bp-text"><strong>모바일 트래픽 60~70% 시대</strong><span>모바일 퍼스트 설계 미비 시 트래픽 이탈. 앱 vs PWA 전략 선택 필요.</span></div></li>
+      </ul>
+    </div>
+
+    <div class="analysis-block">
+      <h3>시장 전망</h3>
+      <div class="highlight">
+        서브컬처 특화 위키 시장은 계속 성장 중. 나무위키가 한국어 단일 시장에서 월 347M 방문을 달성한 것은 "언어권별 서브컬처 독점" 전략의 유효성을 입증. 일본어(PixivEnc, Nicopedia), 중국어(萌娘百科, Baidu) 시장은 이미 점유자 존재. <strong>동남아, 스페인어권, 아랍어권은 나무위키형 서브컬처 위키 공백 지역.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 벤치마킹 TOP 15 -->
+  <div id="benchmark" class="tab-content section">
+    <h2>최종 벤치마킹 포인트 TOP 15</h2>
+    <p style="color:#8b949e;margin-bottom:24px;font-size:14px;">우선순위 순. 단기 적용 가능한 것부터 정렬.</p>
+    <ul class="bp-list">
+      <li>
+        <div class="bp-num">1</div>
+        <div class="bp-text">
+          <strong>광고 + 멤버십 이중 수익 구조 (萌娘百科)</strong>
+          <span>기본 광고 유지 + "광고없는 멤버십" 티어 추가. 月 1,900~4,900원. 수익 안정성과 사용자 만족 동시 달성. 즉시 적용 가능.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">2</div>
+        <div class="bp-text">
+          <strong>기여자 게이미피케이션 (Baidu Baike)</strong>
+          <span>편집 포인트 → 레벨 → 배지 시스템. 상위 기여자 명예 인정. 에디터 이탈 방지와 품질 향상 동시 효과.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">3</div>
+        <div class="bp-text">
+          <strong>연관 항목 링크 밀도 극대화 (나무위키 강점 유지)</strong>
+          <span>나무위키 이탈률 40.3%의 핵심 비결. 텍스트 내 링크 밀도를 높게 설계. 자동 링크 추천 AI 도입 검토.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">4</div>
+        <div class="bp-text">
+          <strong>인포박스 표준화 (Baidu Baike)</strong>
+          <span>인물/작품/게임/기업 등 카테고리별 인포박스 템플릿 표준화. 핵심 정보 즉시 스캔 가능하게.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">5</div>
+        <div class="bp-text">
+          <strong>다크모드 기본 제공</strong>
+          <span>조사 대상 대부분 미지원 — 차별화 포인트. 서브컬처 독자층은 야간 이용 비율 높음.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">6</div>
+        <div class="bp-text">
+          <strong>유머/비공식 문체 명문화 (萌娘百科 + Neolurk)</strong>
+          <span>취소선 농담, 코미디 주석, 과장 서술을 편집 정책으로 공식 허용. 나무위키 문화의 핵심 — 명문화해서 지속.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">7</div>
+        <div class="bp-text">
+          <strong>AI 숏폼 요약 레이어 (Baidu 妙懂百科)</strong>
+          <span>긴 항목 상단에 AI 요약문(3줄) + 선택적으로 숏폼 영상 요약. 빠른 소비자 대응.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">8</div>
+        <div class="bp-text">
+          <strong>태그 기반 발견성 강화 (Pixiv Encyclopedia)</strong>
+          <span>항목에 다중 태그 부여 → 태그 클러스터로 연관 항목 탐색. 롱테일 콘텐츠 발굴.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">9</div>
+        <div class="bp-text">
+          <strong>포럼+위키 통합 (巴哈姆特)</strong>
+          <span>위키 항목 하단에 포럼 토론 스레드 연결. 토론이 항목 개선으로 자연스럽게 흐르는 구조.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">10</div>
+        <div class="bp-text">
+          <strong>전문가 검증 배지 (Baidu Baike)</strong>
+          <span>특정 분야(의학/법률/게임개발 등) 전문가 편집자에게 검증 배지 부여. 항목 신뢰도 향상.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">11</div>
+        <div class="bp-text">
+          <strong>오픈 API 생태계 (AniList)</strong>
+          <span>GraphQL API 공개 → 서드파티 앱이 위키 데이터 활용 → 생태계 확장 플라이휠.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">12</div>
+        <div class="bp-text">
+          <strong>평점/리뷰 레이어 추가 (MAL)</strong>
+          <span>위키 항목에 유저 평점+리뷰 섹션 추가. 단순 백과를 넘어 추천/발견 플랫폼으로 확장.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">13</div>
+        <div class="bp-text">
+          <strong>편집 이력 투명성 (더위키)</strong>
+          <span>버전별 차이 비교, 과거 버전 열람 기능. 콘텐츠 신뢰도 + 반달 억제 효과.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">14</div>
+        <div class="bp-text">
+          <strong>다분산 백업 체계 (Nicopedia 교훈)</strong>
+          <span>2024년 랜섬웨어로 2개월 다운. 지리적으로 분산된 백업 + 복구 시스템 필수.</span>
+        </div>
+      </li>
+      <li>
+        <div class="bp-num">15</div>
+        <div class="bp-text">
+          <strong>장기: 수직통합 생태계 (巴哈姆特)</strong>
+          <span>위키 → 뉴스 → 포럼 → 스트리밍 → 커머스 순서로 단계적 확장. 단일 플랫폼 록인 극대화.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 출처 -->
+  <div id="sources" class="tab-content section">
+    <h2>출처 및 참고 자료</h2>
+    <ul class="source-list">
+      <li><a href="https://en.wikipedia.org/wiki/Moegirlpedia" target="_blank">Moegirlpedia - Wikipedia</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Baidu_Baike" target="_blank">Baidu Baike - Wikipedia</a></li>
+      <li><a href="https://www.similarweb.com/website/dic.pixiv.net/" target="_blank">dic.pixiv.net - SimilarWeb</a></li>
+      <li><a href="https://www.similarweb.com/website/dic.nicovideo.jp/" target="_blank">dic.nicovideo.jp - SimilarWeb</a></li>
+      <li><a href="https://www.similarweb.com/website/namu.wiki/" target="_blank">namu.wiki - SimilarWeb (May 2026)</a></li>
+      <li><a href="https://www.similarweb.com/website/zh.moegirl.org.cn/" target="_blank">zh.moegirl.org.cn - SimilarWeb</a></li>
+      <li><a href="https://www.similarweb.com/website/atwiki.jp/" target="_blank">atwiki.jp - SimilarWeb</a></li>
+      <li><a href="https://www.similarweb.com/website/wikiwiki.jp/" target="_blank">wikiwiki.jp - SimilarWeb</a></li>
+      <li><a href="https://ko.wikipedia.org/wiki/%EB%82%98%EB%AC%B4%EC%9C%84%ED%82%A4" target="_blank">나무위키 - 위키백과</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Bahamut_Gamer%27s_Community" target="_blank">Bahamut Gamer's Community - Wikipedia</a></li>
+      <li><a href="https://zh.wikipedia.org/zh-tw/%E5%B7%B4%E5%93%88%E5%A7%86%E7%89%B9%E9%9B%BB%E7%8E%A9%E8%B3%87%E8%A8%8A%E7%AB%99" target="_blank">巴哈姆特電玩資訊站 - 維基百科</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Lurkmore" target="_blank">Lurkmore - Wikipedia</a></li>
+      <li><a href="https://www.similarweb.com/website/neolurk.org/" target="_blank">neolurk.org - SimilarWeb</a></li>
+      <li><a href="https://ja.wikipedia.org/wiki/%E3%83%8B%E3%82%B3%E3%83%8B%E3%82%B3%E5%A4%A7%E7%99%BE%E7%A7%91" target="_blank">ニコニコ大百科 - Wikipedia (日)</a></li>
+      <li><a href="https://ja.wikipedia.org/wiki/%E3%83%94%E3%82%AF%E3%82%B7%E3%83%96%E7%99%BE%E7%A7%91%E4%BA%8B%E5%85%B8" target="_blank">ピクシブ百科事典 - Wikipedia (日)</a></li>
+      <li><a href="https://www.itmedia.co.jp/news/articles/2403/15/news190.html" target="_blank">アニヲタWiki(仮) 악성 스크립트 사건 - ITmedia</a></li>
+      <li><a href="https://expandedramblings.com/index.php/baidu-stats/" target="_blank">Baidu Statistics 2026</a></li>
+      <li><a href="https://ko.wikipedia.org/wiki/%ED%95%9C%EA%B5%AD%EC%96%B4_%EC%9C%84%ED%82%A4_%EB%AA%A9%EB%A1%9D" target="_blank">한국어 위키 목록 - 위키백과</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    나무위키형 해외 플랫폼 벤치마킹 보고서 2026 &nbsp;|&nbsp; 조사일: 2026-06-19 &nbsp;|&nbsp; 서브에이전트 병렬 심층조사
+  </div>
+</footer>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
